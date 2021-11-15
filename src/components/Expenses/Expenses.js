@@ -1,42 +1,34 @@
-import React, { useState } from "react";
-import "./Expenses.css";
-import ExpenseItem from "./ExpenseItem";
-import Card from "../UI/Card";
-import ExpensesFilter from "./ExpensesFilter";
+import React, { useState } from 'react';
+
+import ExpenseItem from './ExpenseItem';
+import Card from '../UI/Card';
+import ExpensesFilter from './ExpensesFilter';
+import './Expenses.css';
 
 const Expenses = (props) => {
-  const [selectedYear, setSelectedYear] = useState("");
+  const [filteredYear, setFilteredYear] = useState('2020');
+  const [filteredArray, setFilteredArray] = useState(props.items);
 
-  const handleOnSelectedYear = (inputSelectedYear) => {
-    setSelectedYear(inputSelectedYear);
-    // console.log(inputSelectedYear);
+  const filterChangeHandler = (selectedYear) => {
+    setFilteredYear(selectedYear);
+    setFilteredArray(props.items.filter(item => item.date.getFullYear().toString() === selectedYear.toString()));
   };
 
   return (
     <div>
-      
-      <Card className="expenses">
-      <ExpensesFilter controlYear={selectedYear} onSelectedYear={handleOnSelectedYear} />
-        <ExpenseItem
-          title={props.expenses[0].title}
-          amount={props.expenses[0].amount}
-          date={props.expenses[0].date}
+      <Card className='expenses'>
+        <ExpensesFilter
+          selected={filteredYear}
+          onChangeFilter={filterChangeHandler}
         />
-        <ExpenseItem
-          title={props.expenses[1].title}
-          amount={props.expenses[1].amount}
-          date={props.expenses[1].date}
-        />
-        <ExpenseItem
-          title={props.expenses[2].title}
-          amount={props.expenses[2].amount}
-          date={props.expenses[2].date}
-        />
-        <ExpenseItem
-          title={props.expenses[3].title}
-          amount={props.expenses[3].amount}
-          date={props.expenses[3].date}
-        />
+        {filteredArray.map((expense) => (
+          <ExpenseItem
+            key={expense.id}
+            title={expense.title}
+            amount={expense.amount}
+            date={expense.date}
+          />
+        ))}
       </Card>
     </div>
   );
