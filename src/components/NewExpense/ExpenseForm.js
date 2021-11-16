@@ -24,7 +24,7 @@ const ExpenseForm = (props) => {
 
     const expenseData = {
       title: enteredTitle,
-      amount: enteredAmount,
+      amount: +enteredAmount,
       date: new Date(enteredDate),
     };
 
@@ -51,8 +51,7 @@ const ExpenseForm = (props) => {
     );
   }
 
-
-  if(formShow===true){
+  if (formShow === true) {
     return (
       <form onSubmit={submitHandler}>
         <div className="new-expense__controls">
@@ -86,7 +85,13 @@ const ExpenseForm = (props) => {
           </div>
         </div>
         <div className="new-expense__actions">
-          <button id="cancel-button" onClick={(e)=>{setFormShow(false);e.preventDefault()}}>
+          <button
+            id="cancel-button"
+            onClick={(e) => {
+              setFormShow(false);
+              e.preventDefault();
+            }}
+          >
             Cancel
           </button>
           <button type="submit">Add Expense</button>
@@ -94,7 +99,6 @@ const ExpenseForm = (props) => {
       </form>
     );
   }
-  
 };
 
 export default ExpenseForm;
